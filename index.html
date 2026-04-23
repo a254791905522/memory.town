@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Town Stories · Logic-Pair Memory Adventure</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #1a1530;
+            background-image:
+                radial-gradient(ellipse 100% 80% at 50% -20%, rgba(255, 182, 193, 0.22), transparent 55%),
+                radial-gradient(ellipse 70% 50% at 0% 100%, rgba(147, 112, 219, 0.2), transparent 50%),
+                radial-gradient(ellipse 60% 45% at 100% 70%, rgba(127, 255, 212, 0.12), transparent 45%),
+                linear-gradient(165deg, #151028 0%, #221a3d 40%, #1a1530 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            position: relative;
+            overflow-x: hidden;
+            color: #e8e4f5;
+        }
+
+        .card-pattern {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.12;
+            background-image:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
+                linear-gradient(225deg, rgba(255, 255, 255, 0.06) 25%, transparent 25%),
+                linear-gradient(45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%);
+            background-size: 48px 48px;
+            background-position: 0 0, 24px 0, 24px -24px;
+        }
+
+        .sparkle {
+            position: fixed;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(72px);
+            opacity: 0.4;
+        }
+
+        .sparkle.a {
+            top: -120px;
+            right: -100px;
+            background: radial-gradient(circle, rgba(255, 140, 180, 0.55) 0%, transparent 65%);
+        }
+
+        .sparkle.b {
+            bottom: -140px;
+            left: -80px;
+            background: radial-gradient(circle, rgba(138, 180, 248, 0.45) 0%, transparent 65%);
+        }
+
+        .container {
+            background: linear-gradient(155deg, rgba(45, 38, 78, 0.94) 0%, rgba(28, 24, 52, 0.97) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 28px;
+            border: 2px solid rgba(255, 182, 220, 0.35);
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+                0 28px 64px rgba(0, 0, 0, 0.45),
+                0 0 80px rgba(186, 148, 255, 0.12);
+            max-width: 620px;
+            width: 100%;
+            padding: 44px 38px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 28px;
+            right: 28px;
+            height: 4px;
+            border-radius: 0 0 6px 6px;
+            background: linear-gradient(90deg, #ff9ecd, #c4a7ff, #7fdbda, #ffe066, #ff9ecd);
+            opacity: 0.9;
+        }
+
+        .game-icon {
+            width: 108px;
+            height: 108px;
+            margin: 0 auto 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: linear-gradient(145deg, rgba(255, 158, 210, 0.22) 0%, rgba(167, 139, 250, 0.2) 100%);
+            border: 2px solid rgba(196, 167, 255, 0.5);
+            border-radius: 24px;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35), 0 0 32px rgba(255, 158, 210, 0.15);
+        }
+
+        .mini-card {
+            width: 34px;
+            height: 44px;
+            border-radius: 8px;
+            background: linear-gradient(160deg, #ffe066 0%, #ffb347 100%);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+            transform: rotate(-8deg);
+        }
+
+        .mini-card:last-child {
+            background: linear-gradient(160deg, #a78bfa 0%, #7c3aed 100%);
+            transform: rotate(8deg);
+            margin-left: -12px;
+        }
+
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.45rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            margin-bottom: 10px;
+            line-height: 1.12;
+            color: #fff9fb;
+            text-shadow: 0 2px 20px rgba(255, 158, 210, 0.35);
+        }
+
+        h1 .gradient {
+            background: linear-gradient(105deg, #ffb7d5 0%, #e9d5ff 45%, #9ef5e8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #c4b8e8;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 22px;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 26px;
+        }
+
+        .badge {
+            background: rgba(255, 158, 210, 0.18);
+            border: 1px solid rgba(255, 158, 210, 0.45);
+            color: #ffd6ea;
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .badge.alt {
+            background: rgba(127, 219, 218, 0.14);
+            border-color: rgba(127, 219, 218, 0.4);
+            color: #b8f5f0;
+        }
+
+        .description {
+            text-align: left;
+            color: #c9c0e8;
+            line-height: 1.82;
+            font-size: 0.98rem;
+            margin-bottom: 24px;
+        }
+
+        .description strong {
+            color: #fff4fc;
+            font-weight: 700;
+        }
+
+        .panel {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.22);
+            border-radius: 18px;
+            border: 1px solid rgba(196, 167, 255, 0.28);
+            padding: 20px 22px;
+            margin-bottom: 24px;
+        }
+
+        .panel h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.28rem;
+            font-weight: 600;
+            color: #ffb7d5;
+            margin-bottom: 14px;
+        }
+
+        .panel ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .panel li {
+            color: #c9c0e8;
+            padding: 6px 0 6px 26px;
+            position: relative;
+            font-size: 0.93rem;
+            line-height: 1.55;
+        }
+
+        .panel li::before {
+            content: "◆";
+            position: absolute;
+            left: 0;
+            color: #7fdbda;
+            font-size: 0.55rem;
+            top: 0.65em;
+        }
+
+        .worlds {
+            text-align: left;
+            margin-bottom: 28px;
+        }
+
+        .worlds h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #9ef5e8;
+            margin-bottom: 12px;
+        }
+
+        .worlds ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+        }
+
+        .worlds li {
+            color: #c9c0e8;
+            font-size: 0.9rem;
+            padding: 5px 0 5px 22px;
+            position: relative;
+            line-height: 1.45;
+        }
+
+        .worlds li::before {
+            content: "★";
+            position: absolute;
+            left: 0;
+            color: #ffe066;
+            font-size: 0.65rem;
+            top: 0.45em;
+        }
+
+        .app-store-button {
+            display: inline-block;
+            background: linear-gradient(145deg, #ec4899 0%, #a855f7 50%, #6366f1 100%);
+            color: #fff;
+            padding: 16px 38px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 800;
+            font-family: 'Fredoka', sans-serif;
+            letter-spacing: 0.03em;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 32px rgba(168, 85, 247, 0.45);
+        }
+
+        .app-store-button:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 16px 40px rgba(236, 72, 153, 0.5);
+            color: #fff;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(196, 167, 255, 0.22);
+            font-size: 0.84rem;
+            color: #8b82b8;
+            font-weight: 600;
+        }
+
+        .footer a {
+            color: #e9d5ff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+            color: #ffb7d5;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 34px 22px; }
+            .worlds ul { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card-pattern" aria-hidden="true"></div>
+    <div class="sparkle a" aria-hidden="true"></div>
+    <div class="sparkle b" aria-hidden="true"></div>
+
+    <div class="container">
+        <div class="game-icon" role="img" aria-label="Memory cards">
+            <span class="mini-card" aria-hidden="true"></span>
+            <span class="mini-card" aria-hidden="true"></span>
+        </div>
+        <h1><span class="gradient">Memory Town Stories</span></h1>
+        <p class="subtitle">Logic-pair memory adventure</p>
+
+        <div class="badges">
+            <span class="badge">Free</span>
+            <span class="badge alt">Casual</span>
+            <span class="badge">iPhone &amp; iPad</span>
+            <span class="badge alt">4+</span>
+        </div>
+
+        <div class="description">
+            <p>Flip lively cards, clear clever boards, collect stickers, and take on fresh goals every day. <strong>Memory Town Stories</strong> is a bright cartoon memory game where classic matching grows into something smarter: living cards react when you nail a pair, logic-pair levels link related ideas instead of identical pictures, and playful board events keep every round surprising.</p>
+        </div>
+
+        <div class="panel">
+            <h3>Featured gameplay</h3>
+            <ul>
+                <li><strong>Living cards</strong> — wiggle, bounce, and celebrate the right match.</li>
+                <li><strong>Logic pairs</strong> — connect ideas like sun + shades or bee + flower.</li>
+                <li><strong>Board events</strong> — wind, sleepy, sticky, sparkle joker, and trick twists.</li>
+                <li><strong>Memory powers</strong> — peek, freeze, soft shuffle, and trace hint when boards get tough.</li>
+                <li><strong>Collect &amp; decorate</strong> — stickers, card backs, and your own Memory Room.</li>
+                <li><strong>Daily challenge &amp; relax mode</strong> — rotating goals or calm, timer-free play.</li>
+            </ul>
+        </div>
+
+        <div class="worlds">
+            <h3>Story worlds to explore</h3>
+            <ul>
+                <li>Candy Park</li>
+                <li>Ocean Friends</li>
+                <li>Jungle Party</li>
+                <li>Toy Room</li>
+                <li>Space Picnic</li>
+                <li>Magic Kitchen</li>
+            </ul>
+        </div>
+
+        <div class="description">
+            <p>Jump into <strong>story worlds</strong>, <strong>daily challenges</strong>, <strong>quick play</strong>, or slow down in <strong>relax mode</strong>. Family-friendly art, smooth flips, and portrait-friendly design make it easy for kids and satisfying for adults who love memory puzzles and light collectible progression.</p>
+        </div>
+
+        <a href="https://apps.apple.com/us/app/memory-town-stories/id6762370388?uo=4" class="app-store-button" target="_blank" rel="noopener noreferrer">
+            Get it on the App Store
+        </a>
+
+        <div class="footer">
+            <a href="privacy.html">Privacy</a> · Memory Town Stories
+        </div>
+    </div>
+</body>
+
+</html>
