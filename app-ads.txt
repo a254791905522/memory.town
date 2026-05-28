@@ -31,6 +31,7 @@ sharethrough.com, OAW69Fon, RESELLER, d53b998a7bd4ecd2
 dauup.com, 34142, RESELLER, 4daba13e2b0dfd92
 themediagrid.com, FWN84J, RESELLER, 35d5010d7789b49d
 rubiconproject.com, 25978, RESELLER, 0bfd66d529a55807
+yango-ads.com, 325782455, DIRECT
 xandr.com, 15278, RESELLER, f5ab79cb980f11d1
 smaato.com, 1100059282, RESELLER, 07bcf65f187117b4
 video.unrulymedia.com, 630415254, RESELLER
@@ -61,10 +62,8 @@ video.unrulymedia.com, 2444764291, RESELLER
 triplelift.com, 13423, RESELLER, 6c33edb13117fd86
 display.io, 156748, RESELLER
 pubmatic.com, 167323, RESELLER, 5d62403b186f2ace
-yandex.com, 111138458, DIRECT
 my-cast.tv, 987137, RESELLER, 8c33fe1bd714ffd7
 app-stock.com, 509221, RESELLER, ed8c126ea5971415
-yango-ads.com, 111138458, DIRECT
 conversantmedia.com, 100358, RESELLER, 03113cd04947736d
 triplelift.com, 12456, RESELLER, 6c33edb13117fd86
 adyoulike.com, f3d16fa10382ca99dca498bd4e9659c4, RESELLER
@@ -114,6 +113,7 @@ smartadserver.com, 3864, RESELLER
 rubiconproject.com, 14558, RESELLER, 0bfd66d529a55807
 lijit.com, 558045, RESELLER, fafdf38b16bf6b2b
 improvedigital.com, 2525, RESELLER
+yandex.com, 325782455, DIRECT
 rubiconproject.com, 27969, RESELLER, 0bfd66d529a55807
 rubiconproject.com, 22134, RESELLER, 0bfd66d529a55807
 smartadserver.com, 5450, RESELLER, 060d053dcf45cbf3
